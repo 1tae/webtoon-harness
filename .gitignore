@@ -1,0 +1,17 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# 작업 산출물 (하네스 실행 시 생성되는 중간 결과물/렌더 이미지)
+_workspace/
+_workspace_*/
+RELEASE/
+05_panels/
+**/*.png
+**/refs/
+
+# 로그/임시
+*.log
+.cache/
+node_modules/
