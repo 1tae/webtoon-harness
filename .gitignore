@@ -11,6 +11,10 @@ RELEASE/
 **/*.png
 **/refs/
 
+# 문서용 인포그래픽은 예외 (README 임베드)
+!docs/images/
+!docs/images/*.png
+
 # 로그/임시
 *.log
 .cache/

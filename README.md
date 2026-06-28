@@ -4,6 +4,8 @@
 
 **27개 전문 에이전트**와 **6개 스킬**로 구성되며, 인기 웹툰 트렌드 조사 → 대사 위주·고긴장·매 회차 반전 시나리오 작성 → 캐릭터 레퍼런스 시트 선행 렌더 → 회차당 50+ 패널을 말풍선·한글 대사 **in-image 베이크**로 병렬 렌더 → 생성-검증 루프로 재생성 → 세로 스크롤 뷰어 조립까지 전 과정을 자동화합니다.
 
+![Webtoon Harness 개요](docs/images/01_overview.png)
+
 ---
 
 ## ✨ 특징
@@ -46,6 +48,30 @@
 | **시나리오팀** | concept-architect, worldbuilder, character-designer, series-plotter, twist-master, tension-engineer, episode-outliner, dialogue-writer, script-editor | 하이콘셉트·세계관·캐릭터·시리즈 아크·매 회차 반전·긴장 곡선·비트시트·대사 대본·교정 |
 | **비주얼팀** | art-director, ref-sheet-artist, panel-director, letterer, prompt-smith, panel-artist-a/b/c, panel-validator | 스타일 바이블·레퍼런스 시트·샷리스트·레터링·프롬프트 합성·패널 렌더·6축 검증 루프 |
 | **조립검수팀** | episode-compositor, quality-reviewer, continuity-manager, showrunner | 세로 스크롤 뷰어 조립·QA 검수·연속성 관리·사인오프 패키징 |
+
+### 🔍 리서치팀 — 4명 조사 → 1명 종합
+
+4명의 조사자(트렌드·플랫폼 랭킹·독자 반응·후킹/반전)가 병렬로 조사하고, synthesizer가 하나의 기획 브리프로 종합합니다.
+
+![리서치팀](docs/images/02_research.png)
+
+### ✍️ 시나리오팀 — 컨셉에서 최종 대본까지
+
+하이콘셉트에서 출발해 세계관·캐릭터·시리즈 아크를 거쳐 반전 계획과 긴장 곡선을 병렬 설계하고, 비트시트→대본→최종본으로 수렴합니다. **매 회차 반전**과 **50+ 패널 분량**을 보장합니다.
+
+![시나리오팀](docs/images/03_scenario.png)
+
+### 🎨 비주얼팀 — 레퍼런스 선행 + 생성-검증 루프
+
+아트 디렉터의 스타일 바이블 → 캐릭터 레퍼런스 시트 선행 렌더 → 샷리스트·레터링 → 프롬프트 합성 → 3명의 아티스트가 codex로 동시 5장 병렬 렌더 → panel-validator가 6축 검증·재생성 루프를 돌립니다. 말풍선은 이미지에 함께 그려집니다(in-image 베이크).
+
+![비주얼팀](docs/images/04_visual.png)
+
+### 🧩 조립검수팀 — 조립에서 릴리스까지
+
+말풍선이 베이크된 패널을 세로 스크롤 뷰어로 조립하고, QA 검수·연속성 관리를 거쳐 showrunner가 최종 사인오프 후 RELEASE로 패키징합니다.
+
+![조립검수팀](docs/images/05_assembly.png)
 
 ---
 
@@ -94,6 +120,9 @@ cp -r webtoon-harness/.claude /path/to/your-project/
 
 - **Claude Code** (에이전트·스킬 실행 환경)
 - **codex CLI** (`codex exec`의 `image_generation` 툴) — 패널 이미지 병렬 렌더. ChatGPT OAuth 인증 필요. codex 전역 동시 세션은 **최대 5개**를 지킵니다.
+  - codex CLI 사용 방법은 [`codex-cli` 스킬](https://github.com/revfactory/skills/tree/main/codex-cli)을 참고하세요.
+
+> 💡 이 저장소의 인포그래픽들은 `codex-image`로 16:9 비율 5장을 동시 병렬 렌더해 제작했습니다.
 
 ---
 
