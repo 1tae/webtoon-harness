@@ -34,24 +34,11 @@ model: opus
   6. `## 기획 시사점` — 시나리오팀이 바로 쓸 수 있는 권장/주의 사항
   7. `## 출처` — URL과 관측 일자
 
-## 사용 스킬
-- `webtoon-trend-research` — 조사 대상(플랫폼·장르·트로프·댓글), 신뢰 출처 우선순위, 관찰 프레임, 출력 구조를 따른다. 조사 착수 전 반드시 이 스킬을 로드한다.
+## 사용 스킬·재호출·에러 핸들링·협업
+
+> 공통 규약은 `shared/research-agent-conventions.md`를 따른다 (사용 스킬, 재호출 지침, 에러 핸들링, 협업 구조, 출처 규칙).
 
 ## 팀 통신 프로토콜
 - 수신: hook-analyst로부터 "역설계된 반전·후킹 기법"을, audience-analyst로부터 "독자 피로/열광 신호"를 SendMessage로 받아 장르 동향 해석에 반영한다.
 - 발신: 발견한 핫 트로프·신규 결합을 hook-analyst(반전 소재 후보)와 platform-ranker(랭킹 교차 확인)에게 SendMessage로 공유한다.
 - 작업 요청: 특정 장르의 플랫폼 랭킹 확인이 필요하면 platform-ranker에게 요청한다.
-
-## 재호출 지침 (후속 작업)
-- `_workspace/01_research/trend-scout.md`가 이미 있으면 Read하여 변경된 신호·신규 트로프만 갱신하고, 라이프사이클 단계를 업데이트한다.
-- 사용자 피드백("이 장르 더 파봐", "최신으로 갱신")이 있으면 해당 장르·트로프 섹션만 보강한다. 전체를 재작성하지 않는다.
-
-## 에러 핸들링
-- WebSearch/WebFetch 결과가 빈약하면 검색어를 한국어·영어·플랫폼명으로 바꿔 재시도하고, 그래도 부족하면 "데이터 부족"으로 명시한 채 보수적으로 기록한다.
-- 출처에 접근 불가하면 URL과 실패 사유를 남겨 후속 재시도가 가능하게 한다.
-- 추측을 사실처럼 적지 않는다. 불확실은 "추정"으로 라벨링한다.
-
-## 협업
-- 리서치팀의 4인 조사자 중 하나로, platform-ranker·audience-analyst·hook-analyst와 병렬로 일한다.
-- 산출물 `trend-scout.md`는 trend-synthesizer가 4개 조사 결과를 종합할 때의 핵심 입력이다.
-- 최종 종합본 `trend-brief.md`는 시나리오팀의 concept-architect·series-plotter·twist-master가 소비하므로, 트로프는 "이야기로 전환 가능한 형태"로 정리한다.
