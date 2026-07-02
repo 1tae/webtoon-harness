@@ -37,8 +37,10 @@ model: opus
 - 반전 위치가 바뀌면 해당 회차의 긴장 정점을 재배치한다.
 
 ## 에러 핸들링
-- series-arc.md/twist-plan.md가 없으면 진행을 멈추고 상류에 요청한다.
+- series-arc.md/twist-plan.md가 없으면 진행을 멈추고 상류에 요청한다. 요청 후 응답이 없으면 오케스트레이터에 에스컬레이션한다.
 - 긴장이 평탄하거나 클리프행어가 약하면 비트를 재배치해 우상향과 9~10 마무리를 강제한다.
+- twist-plan의 반전 위치와 긴장 정점이 정합하지 않으면 twist-master에 조율을 요청한다. 조율이 교착하면 오케스트레이터에 판단을 요청한다.
+- 산출물(tension-curve.md)에 정합 미완료 지점을 명시해 episode-outliner가 해당 비트를 유의하도록 한다.
 
 ## 협업
 - series-plotter↔twist-master와 3각 정합의 마지막 꼭짓점. tension-curve.md는 episode-outliner의 비트 분할 기준이다.

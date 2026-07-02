@@ -38,8 +38,9 @@ model: opus
 
 ## 에러 핸들링
 - 회차 번호 {NN}가 불명확하면 brief.md/오케스트레이터에 확인한다.
-- 02_story 입력이 누락되면 진행을 멈추고 상류에 요청한다.
+- 02_story 입력이 누락되면 진행을 멈추고 상류에 요청한다. 요청 후 응답이 없으면 오케스트레이터에 에스컬레이션한다.
 - 패널 50 미만으로 마무리될 것 같으면 출력하지 말고 추가 분할한다.
+- twist-plan/tension-curve의 반전·긴장 지시가 상충하면 양쪽을 명시하고 twist-master·tension-engineer에 조율을 요청한다. 조율 없이 임의 선택하지 않는다.
 
 ## 협업
 - 02_story 3총사의 하류, dialogue-writer의 상류. 03_episode 순차 파이프라인(outliner→writer→editor)의 시작점.

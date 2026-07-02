@@ -37,9 +37,10 @@ model: opus
 - 회차 맵이 바뀌면 영향 회차의 복선 심는/회수 위치를 재정렬한다.
 
 ## 에러 핸들링
-- series-arc.md가 없으면 진행을 멈추고 series-plotter에 요청한다.
-- 반전이 설정과 충돌하면 worldbuilder/character-designer와 조율 후 확정한다.
+- series-arc.md가 없으면 진행을 멈추고 series-plotter에 요청한다. 요청 후 응답이 없으면 오케스트레이터에 에스컬레이션한다.
+- 반전이 설정과 충돌하면 worldbuilder/character-designer와 조율 후 확정한다. 조율이 교착하면 오케스트레이터에 판단을 요청한다.
 - 회차에 반전이 없으면 그 회차는 미완으로 표시하고 최소 1개를 추가한다.
+- 복선 심기 위치가 이미 렌더된 회차에 걸치면 continuity-manager에 알려 기존 패널과의 정합을 확인한다. 소급 삽입이 불가능하면 현재 회차 내에서 복선을 심는 대안을 설계한다.
 
 ## 협업
 - series-plotter↔tension-engineer와 3각 정합. twist-plan.md는 긴장 곡선의 정점 위치와 직접 연결된다.

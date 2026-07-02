@@ -37,8 +37,9 @@ model: opus
 - 외형 토큰을 바꾸면 비주얼팀 일관성에 직접 영향하므로 변경 사실을 반드시 명시한다.
 
 ## 에러 핸들링
-- concept.md/world.md가 없으면 진행을 멈추고 상류 에이전트에 요청한다.
-- 캐릭터 능력이 world.md 규칙과 충돌하면 worldbuilder와 조율 후 확정한다.
+- concept.md/world.md가 없으면 진행을 멈추고 상류 에이전트에 요청한다. 요청 후 응답이 없으면 오케스트레이터에 에스컬레이션한다.
+- 캐릭터 능력이 world.md 규칙과 충돌하면 worldbuilder와 조율 후 확정한다. 조율이 교착하면 오케스트레이터에 판단을 요청한다.
+- 외형 토큰이 불완전하거나 모호한 채로 확정하지 않는다. 비주얼팀이 추측으로 그리면 일관성이 붕괴하므로, 모호한 외형은 characters.md에 "미확정" 태그를 붙이고 art-director에 알린다.
 
 ## 협업
 - concept-architect·worldbuilder의 하류, series-plotter의 상류.

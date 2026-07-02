@@ -154,7 +154,19 @@ RELEASE/ep{NN}/
 
 ---
 
-## 6. 출력 경로 (§3 데이터 흐름 준수)
+## 6. 에러 핸들링 (조립·검수·패키징 공통)
+
+| 상황 | 전략 |
+|------|------|
+| 패널 PNG 누락·0바이트 | 조립을 멈추지 말고 플레이스홀더 표시 + 결손 리스트 기록 → 비주얼팀에 재렌더 요청. 결손 5개 이상이면 오케스트레이터에 에스컬레이션 |
+| 베이크된 말풍선 깨짐 (ACCEPT-FLAG) | 오버레이로 덮지 않는다(이중 표기). 플래그 목록에 명시해 quality-reviewer·showrunner가 최종 판단 |
+| 재조립/재검수 루프 | 최대 2회. 초과 시 showrunner에 근본 원인 진단 요청. 무한 루프 방지 |
+| 입력 파일(대본·twist-plan·index.html) 누락 | "검증 불가"로 표기하고 발신처에 요청. 없는 것을 통과시키지 않음. 응답 없으면 오케스트레이터에 에스컬레이션 |
+| qa_report REDO인 채로 사인오프 요청 | 거부. 재작업 루프로 되돌림. 불완전 패키지를 RELEASE에 올리지 않음 |
+| continuity.md 모순 미해결 | 사인오프 거부. 해소 불가 모순은 양쪽 기록 + 해당 팀에 결정 요청. 임의 판단 금지 |
+| 미회수 떡밥 회수 예정 회차 초과(지연) | continuity.md에 "회수 지연" 태그 + series-plotter·twist-master에 즉시 경고 |
+
+## 7. 출력 경로 (§3 데이터 흐름 준수)
 
 - 조립 뷰어: `_workspace/06_assembly/ep{NN}/index.html` (episode-compositor)
 - 검수 보고: `_workspace/06_assembly/ep{NN}/qa_report.md` (quality-reviewer)
@@ -163,7 +175,7 @@ RELEASE/ep{NN}/
 
 입력 경로: 패널 `_workspace/05_panels/ep{NN}/panel_*.png`, 레터링 `_workspace/04_visual/ep{NN}_lettering.md`, 확정 대본 `_workspace/03_episode/ep{NN}_script_final.md`, 반전 설계 `_workspace/02_story/twist-plan.md`, 정본 `_workspace/02_story/*`·`_workspace/04_visual/*`.
 
-## 7. 후속 작업(다시/재조립/수정/보완)
+## 8. 후속 작업(다시/재조립/수정/보완)
 - 산출물이 이미 있으면 통째로 새로 만들지 말고 변경분만 교체한다. 합격한 부분은 보존한다.
 - 재조립: 변경된 패널/말풍선의 데이터 항목만 교체. 재검수: 재작업된 항목만 재검증해 판정 갱신. 연속성: 변한 항목만 이어 기록.
 - 자산: 동작하는 뷰어 골격은 `assets/viewer-template.html`. 바로 쓰는 검증 명령은 `references/qa-checks.md`.

@@ -38,9 +38,10 @@ model: opus
 - 캐릭터 말투가 갱신되면 해당 인물 대사를 일괄 점검한다.
 
 ## 에러 핸들링
-- beatsheet가 없으면 진행을 멈추고 episode-outliner에 요청한다.
+- beatsheet가 없으면 진행을 멈추고 episode-outliner에 요청한다. 요청 후 응답이 없으면 오케스트레이터에 에스컬레이션한다.
 - 내레이션 비중이 과도해지면 대사·행동으로 전환한다.
 - 패널 수가 비트시트와 어긋나면 맞춘다(누락 패널 금지).
+- 캐릭터 말투 시그니처(characters.md)와 대사가 불일치하면 교정하되, characters.md 자체가 모호하면 character-designer에 확인을 요청한다. 추측으로 말투를 만들지 않는다.
 
 ## 협업
 - episode-outliner의 하류, script-editor의 상류. 03_episode 순차 파이프라인의 중간 단계.

@@ -37,8 +37,9 @@ model: opus
 - 컨셉이 변경됐다면 영향받는 규칙만 갱신하고 character-designer/twist-master에 알린다.
 
 ## 에러 핸들링
-- concept.md가 없으면 진행을 멈추고 concept-architect에 요청한다.
-- 규칙 간 모순이 발견되면 우선순위 규칙을 정해 정리하고 변경 사항을 기록한다.
+- concept.md가 없으면 진행을 멈추고 concept-architect에 요청한다. 요청 후 응답이 없으면 오케스트레이터에 에스컬레이션한다.
+- 규칙 간 모순이 발견되면 우선순위 규칙을 정해 정리하고 변경 사항을 기록한다. 해소 불가 모순은 concept-architect와 조율하되 합의 실패 시 오케스트레이터에 판단을 요청한다.
+- 산출물(world.md)에 미확정 규칙·잠정 가정을 명시해 하류(character-designer·twist-master)가 불확실성을 인지하게 한다.
 
 ## 협업
 - concept-architect의 하류, character-designer의 상류. world.md는 모든 반전·설정의 정합성 기준이다.
