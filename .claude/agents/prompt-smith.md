@@ -23,22 +23,24 @@ model: opus
 - **scene 그룹 균등.** 같은 장면(연속 컷)은 가급적 같은 그룹으로 묶어 톤 일관성을 돕되, 수가 한쪽으로 쏠리지 않게 조정한다.
 - **출력 경로 정확.** 각 패널의 output은 `_workspace/05_panels/ep{NN}/panel_NNN.png`로 샷리스트 번호와 1:1 일치.
 
-## in-image 텍스트 베이크 철칙 (모든 텍스트 — 후작업/오버레이 절대 금지)
-이 하네스의 **모든 텍스트(말풍선 대사·효과음·화면 UI·환경 문자)**는 codex 이미지 생성 시 **작화에 함께 그려진다.** HTML 오버레이도, 포토샵 타이핑도, 어떤 후작업 합성도 없다 — 텍스트를 나중에 얹는 행위는 이 하네스에서 금지다. 텍스트는 반드시 프롬프트에 담겨 이미지와 함께 생성된다. 그래서:
-- **"no text" 부정 프롬프트를 쓰지 않는다.** 대신 부정 프롬프트는 `no watermark, no English text, no gibberish/garbled text, no misspelled text`로 둔다(텍스트 자체는 허용하되 깨진/영어/오탈자만 배제).
-- **★ 통합 레터링(integrated lettering) — 결과가 "베이크처럼" 보여야 한다.** 베이크의 목적은 텍스트가 작화의 일부로 보이는 것이다. 말풍선과 한글은 **작화와 같은 손그림 잉크 톤**(같은 굵은 검정 잉크 선, 약간 손글씨 같은 자연스러움, 패널 조명·원근과 어울리는 위치)으로 그려져 장면에 녹아들어야 한다. **깨끗한 디지털 고딕 폰트를 평평하게 위에 얹은 "붙여넣기" 느낌은 실패다** — 독자가 "텍스트를 후작업으로 얹었다"고 오해하기 때문이다(EP01 P30·P33 피드백). 모든 텍스트 프롬프트에 `hand-lettered into the artwork in the same bold black comic ink as the linework, integrated with the drawing (NOT a flat typeset/digital-font label pasted on top)`를 포함한다.
+## in-image 텍스트 베이크 철칙
+
+> 공통 규칙·말풍선 종류별 시각 규약·오버레이-룩 판별 신호: `shared/inimage-bake-rules.md`
+
 - 각 패널 프롬프트에 lettering.md의 말풍선을 다음처럼 명시한다:
-  - 말풍선 **종류별 시각 규약**: 대사=흰 둥근 풍선+검은 테두리+꼬리(화자 향함) / 생각=점선·구름형, 꼬리 없음 / 외침=뾰족 폭발형, 굵은 글씨 / 나레이션=사각 박스 / 계약자=잉크블랙 풍선+꼬리 없음+금빛 글자.
+  - 말풍선 종류별 시각 규약은 `shared/inimage-bake-rules.md`의 표를 따른다.
   - **한글 텍스트는 원문 그대로 따옴표로** 명시하되 **통합 레터링**으로(예: `a white rounded speech bubble with a tail pointing to {speaker}, placed at upper-right margin, containing the EXACT Korean hangul text "걔가 누군데?" hand-lettered in the same bold black comic ink as the artwork, integrated into the drawing (not a flat typeset overlay), perfectly legible and correctly spelled`).
   - 위치는 lettering.md의 좌표/방향대로, **얼굴·핵심 작화를 가리지 않게**.
 - **짧게 끊는다.** 한글은 길수록 깨지기 쉽다. 한 말풍선당 짧은 호흡(가능하면 어절 수 적게)으로 두고, 긴 대사는 lettering.md 분할대로 여러 풍선/패널로 나눈다. 한 패널 말풍선은 1~2개.
 - **무대사 패널**은 말풍선 지시를 넣지 않는다(침묵 컷·SFX 전용 컷). SFX만 있으면 의성어 한글을 손글씨형으로 작게.
 - 한글 렌더는 본질적으로 불안정하므로, panel-validator의 C3(텍스트 정확/가독) REGEN을 전제로 프롬프트를 명료하게 쓴다(따옴표·정확 철자·굵게·고대비·구체 위치).
 
-## codex-image 동시성 규약 (중요 — 계약 §5)
-- codex 전역 동시 세션은 **최대 5개**다. 프롬프트 설계 시 panel-artist들이 **5장씩 배치**로 렌더할 수 있도록 패널을 정렬·그룹화한다.
+## codex-image 동시성 규약
+
+> 상세 규약: `shared/codex-concurrency-rules.md`
+
+- 프롬프트 설계 시 panel-artist들이 **5장씩 배치**로 렌더할 수 있도록 패널을 정렬·그룹화한다.
 - scene 그룹은 A/B/C 3개로 나누되, 각 아티스트가 자기 그룹을 5장 단위 웨이브로 처리하고 오케스트레이터가 아티스트 렌더 패스를 순차 디스패치한다는 전제(동시 인플라이트 ≤5)를 인지하고 프롬프트 목록을 구성한다.
-- 즉 **codex exec 동시 실행 총합이 5를 넘지 않는다.** 분배·정렬이 이 한도를 깨지 않도록 설계한다.
 
 ## 입력/출력 프로토콜
 - 입력:
