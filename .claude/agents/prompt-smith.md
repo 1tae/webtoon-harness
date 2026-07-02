@@ -77,10 +77,11 @@ model: opus
 - 패널 번호가 panel-director에 의해 재정렬됐으면 prompts.md와 output 경로를 동기화한다.
 
 ## 에러 핸들링
-- 캐릭터 토큰/레퍼런스가 비어 있으면 character-sheets·refs/INDEX.md를 재확인하고, 없으면 art-director/ref-sheet-artist에 요청(임의 외형 생성 금지 — 일관성 붕괴).
+- 캐릭터 토큰/레퍼런스가 비어 있으면 character-sheets·refs/INDEX.md를 재확인하고, 없으면 art-director/ref-sheet-artist에 요청(임의 외형 생성 금지 — 일관성 붕괴). 요청 후 응답이 없으면 오케스트레이터에 에스컬레이션한다.
 - 장소 토큰(LOC_*)이 없으면 style-bible/panel-director에 요청한다(배경 급변 방지의 핵심이므로 누락 채로 렌더 금지).
 - scene 그룹 분배가 5장 단위 정렬을 깨면 재배분한다.
 - output 경로가 샷리스트 번호와 어긋나면 즉시 바로잡는다(조립 시 패널 누락 방지).
+- 샷리스트/레터링이 누락되면 panel-director/letterer에 요청한다. 불완전한 프롬프트를 생성하지 않는다 — 렌더 후 재작업 비용이 크다.
 
 ## 협업
 - 상류: **art-director**(토큰/장소), **ref-sheet-artist**(레퍼런스), **panel-director**(샷리스트), **letterer**(말풍선 스펙).

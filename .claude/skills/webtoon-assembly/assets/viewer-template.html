@@ -180,13 +180,35 @@ function renderPanel(p, i){
 }
 
 (function init(){
+  /* --- PANELS 데이터 검증 --- */
+  if (!Array.isArray(PANELS) || PANELS.length === 0) {
+    document.getElementById("strip").innerHTML =
+      '<div style="color:#b00020;text-align:center;padding:48px 12px">⚠ PANELS 데이터가 비어 있거나 유효하지 않습니다.</div>';
+    console.error("[viewer] PANELS 배열이 비어 있거나 정의되지 않음");
+    return;
+  }
+
   document.title = META.title + " — " + META.episode;
   document.getElementById("m-title").textContent = META.title;
   document.getElementById("m-ep").textContent = META.episode;
   const strip = document.getElementById("strip");
-  PANELS.forEach((p,i) => strip.appendChild(renderPanel(p,i)));
-  document.getElementById("foot").textContent =
-    "총 " + PANELS.length + " 패널 · 끝까지 스크롤하세요";
+  var errCount = 0;
+  PANELS.forEach(function(p, i) {
+    if (!p || !p.src) {
+      errCount++;
+      var ph = el("div", "missing", "⚠ 패널 #" + (i+1) + ": src 경로 누락");
+      var wrapper = el("div", "panel");
+      wrapper.appendChild(ph);
+      strip.appendChild(wrapper);
+      console.error("[viewer] panel " + (i+1) + " src 누락");
+    } else {
+      strip.appendChild(renderPanel(p, i));
+    }
+  });
+  var footText = "총 " + PANELS.length + " 패널";
+  if (errCount > 0) footText += " (결손 " + errCount + "개)";
+  footText += " · 끝까지 스크롤하세요";
+  document.getElementById("foot").textContent = footText;
 })();
 </script>
 </body>

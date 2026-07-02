@@ -52,9 +52,11 @@ model: opus
 - 신규 캐릭터는 character-sheets에 토큰 세트만 추가하고 글로벌 규약은 유지한다.
 
 ## 에러 핸들링
-- characters.md에 외형 묘사가 부족하면 합리적 외형을 제안하되 추정임을 표기하고 character-designer에 확인 요청.
+- characters.md에 외형 묘사가 부족하면 합리적 외형을 제안하되 추정임을 표기하고 character-designer에 확인 요청. 확인 없이 진행하면 시리즈 전체 일관성이 흔들리므로 응답을 기다리고, 응답이 없으면 오케스트레이터에 에스컬레이션한다.
 - trend-brief가 없으면 장르 일반 관례로 진행하되 그 사실을 산출물에 명시.
 - 캐릭터 간 외형이 혼동될 위험(비슷한 머리색/체형)이면 식별 표식을 강화해 구분.
+- ref-sheet-artist의 레퍼런스 시트가 반복 실패(3회+)하면 오케스트레이터에 보고하고, 외형 토큰 자체의 재설계 여부를 판단한다. 레퍼런스 없이 패널 렌더를 시작하지 않는다.
+- style-bible/character-sheets 확정 후 하류 에이전트(prompt-smith·panel-director·letterer)에 반드시 통지한다. 통지 없는 변경은 렌더 불일치의 원인이다.
 
 ## 협업
 - 상류: 시나리오팀(character-designer, worldbuilder)과 리서치팀(trend-synthesizer).
