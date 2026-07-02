@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src 'self'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; base-uri 'none'; form-action 'none';" />
 <title>웹툰 뷰어 — ep{NN}</title>
 <!--
   세로 스크롤 웹툰 뷰어 템플릿 (단일 HTML, 외부 의존성 없음)
@@ -134,15 +135,25 @@ const PANELS = [
 ];
 
 /* ===== 렌더러 ===== */
+const ALLOWED_TYPES = ["dialogue", "thought", "shout", "narration"];
+const ALLOWED_TAILS = ["none", "left", "right", "up", "down"];
+
 function el(tag, cls, txt){ const e=document.createElement(tag); if(cls)e.className=cls; if(txt!=null)e.textContent=txt; return e; }
 
+function sanitizeType(t) { return ALLOWED_TYPES.includes(t) ? t : "dialogue"; }
+function sanitizeTail(t) { return ALLOWED_TAILS.includes(t) ? t : "none"; }
+function sanitizePct(v) { const n = Number(v); return (Number.isFinite(n) && n >= 0 && n <= 100) ? n : 50; }
+function isRelativePath(s) { return typeof s === "string" && !s.match(/^(https?:|data:|javascript:|blob:|\/\/)/i); }
+
 function renderBubble(b){
-  const node = el("div", "bubble " + (b.type||"dialogue"));
-  node.style.left = (b.x ?? 50) + "%";
-  node.style.top  = (b.y ?? 50) + "%";
-  if (b.w) node.style.maxWidth = b.w + "%";
+  const type = sanitizeType(b.type);
+  const tail = sanitizeTail(b.tail);
+  const node = el("div", "bubble " + type);
+  node.style.left = sanitizePct(b.x) + "%";
+  node.style.top  = sanitizePct(b.y) + "%";
+  if (b.w) node.style.maxWidth = sanitizePct(b.w) + "%";
   node.appendChild(document.createTextNode(b.text||""));
-  if (b.tail && b.tail !== "none") node.appendChild(el("span", "tail " + b.tail));
+  if (tail && tail !== "none") node.appendChild(el("span", "tail " + tail));
   return node;
 }
 
@@ -152,7 +163,13 @@ function renderPanel(p, i){
   img.loading = "lazy";              // 긴 회차 성능을 위한 지연 로드
   img.decoding = "async";
   img.alt = p.alt || ("panel " + String(i+1).padStart(3,"0"));
-  img.src = p.src;
+  if (isRelativePath(p.src)) {
+    img.src = p.src;
+  } else {
+    const ph = el("div", "missing", "⚠ 잘못된 이미지 경로(외부 URL 차단): " + p.src);
+    panel.appendChild(ph);
+    return panel;
+  }
   img.onerror = () => {              // 결손/0바이트 PNG는 칸을 비우지 않고 표시
     const ph = el("div", "missing", "⚠ 패널 이미지 누락/손상: " + p.src);
     img.replaceWith(ph);
