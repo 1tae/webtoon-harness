@@ -1,0 +1,17 @@
+{
+  "name": "webtoon-harness",
+  "version": "1.0.0",
+  "description": "> 트렌드 조사부터 세로 스크롤 뷰어 완성까지, 웹툰 한 회차를 **AI 에이전트 팀**이 단계별로 만들어내는 Claude Code 하네스.",
+  "scripts": {
+    "test": "jest --verbose",
+    "test:coverage": "jest --coverage --verbose"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "gray-matter": "^4.0.3",
+    "jest": "^30.4.2",
+    "jsdom": "^28.1.0"
+  }
+}
